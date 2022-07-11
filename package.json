@@ -10,6 +10,9 @@
     "type": "git",
     "url": "git+https://github.com/smallerbird/buildHtmlSite.js.git"
   },
+  "bin": {
+    "build-html-site": "./src/index.js"
+  },
   "keywords": [
     "build",
     "hml",
@@ -22,5 +25,11 @@
   "bugs": {
     "url": "https://github.com/smallerbird/buildHtmlSite.js/issues"
   },
-  "homepage": "https://github.com/smallerbird/buildHtmlSite.js#readme"
+  "homepage": "https://github.com/smallerbird/buildHtmlSite.js#readme",
+  "devDependencies": {
+    "axios": "^0.27.2",
+    "chokidar": "^3.5.3",
+    "ejs": "^3.1.8",
+    "fs-extra": "^10.1.0"
+  }
 }
