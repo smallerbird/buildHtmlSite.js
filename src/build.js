@@ -1,21 +1,34 @@
-async function build(){
-    var fs = require('fs'),path=require('path'),eJs = require("eJs");
-    var chokidar = require('chokidar');
-    const fse = require('fs-extra')
-    const axios=require('axios')
-    var fsTool=require("./lib/FSTools")
-    
-    const funcs=require("./lib/funcs")
+var fs = require('fs'),path=require('path'),eJs = require("eJs");
+const fse = require('fs-extra')
+const axios=require('axios')
+var fsTool=require("./lib/FSTools")
 
-    funcs.log("工作所处位置："+__dirname)
+const funcs=require("./lib/funcs")
+
+//一些配置信息都在这里
+//可以接受哪些参数
+const processArgv='page,env,watcher,copy,clrbuild,config,init-list,init'
+//初始化模版
+const templatePath='../example/'//模版位置
+
+
+// 可先模版清单s
+const templateList="test"
+
+async function build(){
+   
+    var chokidar = require('chokidar');
+   
+
+    funcs.log("命令程序位置："+__dirname)
     funcs.log("当前命令运行时目录："+process.cwd())
     const args = process.argv.slice(2);
     //返回的结果： [ 'page=index.html', 'env=dev' ]
     funcs.log("运行参数："+JSON.stringify(args))
     //可以通过的参数清单
-    let strrgKey='page,env,watcher,copy,clrbuild,config,init-list,init'
+    let strargKey=processArgv
     let obj1={}
-    strrgKey.split(',').map((item)=>{
+    strargKey.split(',').map((item)=>{
         obj1[item]=true
     })
     let argConfig={}
@@ -32,33 +45,79 @@ async function build(){
     }
     funcs.log("运行参数 argConfig："+JSON.stringify(argConfig))
 
-    //模版列表
-    let strInitList="test"
-    let initList=strInitList.split(",")
-    let isFindInit=false
-    for(let i=0;i<initList.length;i++){
-        if(initList[i]==argConfig.init){
-            isFindInit=true;
-            break;
-        }
-    }
-    if(isFindInit){
-        funcs.log("init参数格式不对，应为： 参数=值")
-        return;
-    }
+    
+
+
+    
 
 
     if(!argConfig['config']) argConfig['config']='./config.js'
     let configFile=path.resolve(process.cwd(), argConfig['config'])
+    
 
-    funcs.log("检测配置文件:"+configFile)
+    if(argConfig["init-list"]){
+        funcs.log("当前提供的模版:")
+        let arr1=templateList.split(",")
+        for(let i=0;i<arr1.length;i++){
+            funcs.log(arr1[i])
+        }
+        funcs.log("请用命令进行设置：build-html-site init=模版")
 
 
+
+        return;
+    }
+
+    if(argConfig["init"]){
+        let tName=argConfig["init"]
+        funcs.log("准备安装:"+tName)
+
+        //模版列表
+        let initList=templateList.split(",")
+        let isFindInit=false
+        for(let i=0;i<initList.length;i++){
+            if(initList[i]==tName){
+                isFindInit=true;
+                break;
+            }
+        }
+        if(!isFindInit){
+            funcs.log("没有到这个模版："+tName+" 请用命令查询支持的模版: build-html-site init-list=1")
+            return;
+        }
+        //当前目录是否空？
+        let tDir=path.resolve(__dirname, templatePath,tName)
+        let currentDir=process.cwd()
+        let isEmpty=await fsTool.isEmptyDir(currentDir)
+        funcs.log("检查目录"+currentDir+"为空:"+isEmpty)
+        if(isEmpty){
+            funcs.log("准备拷贝:"+tDir)
+            await fse.copy(
+                tDir,currentDir
+            )
+        }
+
+        
+
+
+
+        
+
+
+
+        return;
+    }
+
+    funcs.log("检测配置文件#1:"+configFile)
     let isHave=await fsTool.exists(configFile)
     if(!isHave){
         funcs.log("!!!!!!!!!!!! 缺少配置文件  config.js")
         return;
     }
+
+
+
+
 
 
     let configDo=require(configFile)
@@ -139,7 +198,7 @@ async function build(){
     
 
         let requestData={}
-        //请求所有接口数据
+        //请求全局需要的接口数据
         const instance = axios.create()
         let configRequest=config.request
         // console.log("configRequest:",configRequest,configRequest.length)
@@ -162,7 +221,7 @@ async function build(){
                     }
 
                 }
-                console.log("请求接口错误:"+item.url,"---==接口信息==---",JSON.stringify(item),"---==错误信息==--",JSON.stringify(e))
+                // console.log("请求接口错误:"+item.url,"---==接口信息==---",JSON.stringify(item),"---==错误信息==--",JSON.stringify(e))
                 
             }
         }
@@ -175,9 +234,71 @@ async function build(){
         pubdata.requestData=requestData
         
         let pages=config.pages
+//这里把多页的抽出来，加工，转换成普通的page
+let newAppendPages=[]
+for(let i=pages.length-1;i>=0;i--){
+    let item=pages[i]
+    if(item.type=='pages'){
+        
+        //请求
+        if(item.request){
+            // console.log("configRequest:",configRequest,configRequest.length)
+           
+                let resData={}
+                try{
+                    resData=await instance.request(item.request[0])
+                }catch(e){
+                    console.log("请求接口错误:"+item.url,"---==接口信息==---",JSON.stringify(item.request[0]),"---==错误信息==--",JSON.stringify(e))
+                    return;
+                }
+                let pageCount=item.config.getPageCount(resData.data)
+                
+                for(let page=1;page<=pageCount;page++){
+                    //创建一个新的
+                    let newPage={
+                        template:item.template,
+                        data:item.data
+                    }
+
+                    let p=item.config.getPageRequestParams(page)
+                    let onePageResData=await instance.request(p)
+                    newPage.data[p.key]=onePageResData.data
+                    newPage.outFileName=item.outFileName(page)
+
+                    newAppendPages.push(newPage)
+                }
+                // console.log("局部 resData :",resData.data)
+        }else{
+            funcs.log("config.pages 发现type=='pages',但缺少request")
+            return;
+        }
+
+
+    }
+}
+
+
+//如果加工有新的，就追加进去。
+if(newAppendPages.length>0){
+    pages=pages.concat(newAppendPages)
+    // console.log("--------",newAppendPages)
+    // console.log("加工以后的：",JSON.stringify(pages))
+    // console.log("--------")
+}
+
+
+
+
+
+
+
         for(let i=pages.length-1;i>=0;i--){
             let item=pages[i]
-
+            if(item.type=='pages'){
+                i--
+                item=pages[i]
+            }
+            
             //当前页面是不是生成:注从命令行传过来，调试用，只生成一个页面
             let template=item.template
             let isCreate=true

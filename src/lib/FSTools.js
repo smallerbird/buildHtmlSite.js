@@ -134,6 +134,21 @@ async function foreachFile(path,callbak) {
     }
 }
 
+function isEmptyDir(dirname) {
+    return fs.promises.readdir(dirname).then(files => {
+        console.log("aaaa:",files)
+        let c=0
+        for(let i=0;i<files.length;i++){
+            if(files=='.DS_Store'){
+                c++
+            }
+        }
+        let count=files.length-c
+        return count<=0;
+    });
+}
+
+
 module.exports={
-    readFile,readDir,exists,writeFile,lstat,isDirectory,mkdir,rmdir,rmDir,mkdirx,foreachFile
+    readFile,readDir,exists,writeFile,lstat,isDirectory,mkdir,rmdir,rmDir,mkdirx,foreachFile,isEmptyDir
 }
