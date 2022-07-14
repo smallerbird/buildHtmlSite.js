@@ -1,4 +1,4 @@
-var fs = require('fs'),path=require('path'),eJs = require("eJs");
+var fs = require('fs'),path=require('path'),eJs = require("ejs");
 const fse = require('fs-extra')
 const axios=require('axios')
 var fsTool=require("./lib/FSTools")

@@ -1,16 +1,19 @@
-# buildHtmlSite.js 是什么？
+## buildHtmlSite.js 是什么？
 是一个自定义生成静态html站点的命令行工具。可以在当前目录下，根据配置文件。对当前的ejs模版可以生成一批html页面。
 
-# 功能
+## 功能
 1. 支持：可配置拷贝的文件夹。
 2. 支持：可配置注入模版的全局变量，并支持自定义接口请求返回的变量。
 3. 支持：可配置根据接口生成纯静态翻页列表和纯详情页面。
 
-# 安装
-```
+## 安装
+```sh
+# 全局安装
 npm install buildhtmlsite -g
+# 局部安装
+npm install  buildhtmlsite -D
 ```
-# 入门
+## 入门
 1. 初始化项目
 ```sh
 # 新建一个空目录
@@ -35,12 +38,21 @@ http-server -c-1 -o
 build-html-site
 ```
 
-# 高级用法
+# 详细参数
+> 格式：build-html-site 参数名1=值 参数名2=值 参数名3=值 ...
+2. env=dev/tes/prod 设置当前环境
+3. init=test 初始化模版，注：目前只支持test,合期会支持更多。
+4. init-list=1 列出支持的模版
+5. watcher=1 开启监控模式
+6. copy=0 关闭拷贝
+7. clrbuild=0 关闭清空build文件
+8. config=xxx 配置文件路径，默认在当前目录config.js
+11. page=xx.html 指定只生成某一个html文件
 
 
 
 
-# 如何运行和本地调试这个工具源代码。
+## 如何运行和本地调试这个工具源代码。
 ```
 # 配置npm全局使用淘宝镜像源
 npm config set registry https://registry.npm.taobao.org
@@ -55,7 +67,7 @@ npm link 包名
 npm unlink 包名
 
 ```
-# 资源参考
+## 资源参考
 1. [npm包发布详细教程](https://blog.csdn.net/u010059669/article/details/109715342)
 2. [生成全局命令,配置命令脚本npm link](https://blog.csdn.net/chunmeizhang_88/article/details/119533718)
 3. [nodejs漏洞华丽变身webshell实现持久化](https://www.jianshu.com/p/9280da67ab3d)
