@@ -67,6 +67,14 @@ npm link 包名
 npm unlink 包名
 
 ```
+### 工程重新构建清缓存
+```sh
+$ rm -rf node_modules
+$ rm -rf package-lock.json
+$ npm cache clear --force
+$ npm install
+```
+
 ## 资源参考
 1. [npm包发布详细教程](https://blog.csdn.net/u010059669/article/details/109715342)
 2. [生成全局命令,配置命令脚本npm link](https://blog.csdn.net/chunmeizhang_88/article/details/119533718)
