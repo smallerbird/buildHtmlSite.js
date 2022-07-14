@@ -1,47 +1,5 @@
 <%- include ('pub/header.html',{data}) %>
-<link href="assets/jsoneditor/9.9.0/jsoneditor.css" rel="stylesheet" type="text/css">
-<script src="assets/jsoneditor/9.9.0/jsoneditor.js"></script>
-<style type="text/css">
-    code {
-      background-color: #f5f5f5;
-    }
-
-    #jsoneditor {
-      width: 500px;
-      height: 500px;
-    }
-  </style>
-<div>
-    <div style="margin: 0 auto;width: 400px;">
-    <h3>模版导入的数据:</h3>
-    <div id="jsoneditor"></div>
-    <h3>原始数据:</h3>
-    <textarea id="jsonData" rows="30" style="margin: 0 auto;width: 500px;">
-        <%- JSON.stringify(data) %>
-    </textarea>
-
-    </div>
-    
-</div>
+<h3>pub/jsonview 测试</h3>
+<%- include ('pub/jsonview/html.html',{data}) %>
 <%- include('./pub/footer.html',{data}) %>
-<script>
-    $(function(){
-        const container = document.getElementById('jsoneditor')
-        const $jsonData = $('#jsonData')
-        
-        const options = {
-            mode: 'tree',
-            modes: ['code', 'form', 'text', 'tree', 'view', 'preview'], // allowed modes
-            onModeChange: function (newMode, oldMode) {
-            console.log('Mode switched from', oldMode, 'to', newMode)
-            }
-        }
-        console.log("xxx:",$jsonData.text())
-        const json = JSON.parse($jsonData.text())
-        const editor = new JSONEditor(container, options, json)
-        
-    })
-  
-</script>
-
-    
+<%- include ('pub/jsonview/js.html',{data}) %>  

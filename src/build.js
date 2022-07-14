@@ -254,6 +254,7 @@ for(let i=pages.length-1;i>=0;i--){
                 let pageCount=item.config.getPageCount(resData.data)
                 
                 for(let page=1;page<=pageCount;page++){
+                    //生成列表页面-----start
                     //创建一个新的
                     let newPage={
                         template:item.template,
@@ -266,6 +267,30 @@ for(let i=pages.length-1;i>=0;i--){
                     newPage.outFileName=item.outFileName(page)
 
                     newAppendPages.push(newPage)
+                    //生成列表页面-----end
+
+                    //生成详情页面-----start
+                    
+                    let listData=item.config.getPageResultListData(onePageResData.data)
+                    for(let d=0;d<listData.length;d++){
+                        let detailsPage={
+                            template:item.config.templateDetails,
+                            data:item.config.data
+                        }
+                        let itemData=listData[d]
+                        let detailsData=await item.config.getDetailsRequestData(itemData,instance.request)
+                        detailsPage.outFileName=item.config.outFileNameDetails(detailsData.data)
+                        detailsPage.data[item.config.getDetailsRequestDataKey]=detailsData.data
+                        newAppendPages.push(detailsPage)
+                    }
+                    
+                    //生成详情页面-----end
+
+                    
+
+
+
+
                 }
                 // console.log("局部 resData :",resData.data)
         }else{
@@ -294,6 +319,7 @@ if(newAppendPages.length>0){
 
         for(let i=pages.length-1;i>=0;i--){
             let item=pages[i]
+            //忽略这种类型的生成。
             if(item.type=='pages'){
                 i--
                 item=pages[i]

@@ -1,0 +1,26 @@
+{
+    "code": "000000",
+    "mesg": "处理成功",
+    "time": "2022-07-11T09:32:10.251Z",
+    "data":
+        {
+          "id": "1518165178884554754",
+          "sort": 2,
+          "type": 1,
+          "categoryId": "1425990622031282178",
+          "categoryName": "新闻",
+          "status": 1,
+          "title": "你有什么梦想，写下来，我们送它上天宫",
+          "content": "<p class=\"ql-align-justify\">“我离星星有多远？”</p><p class=\"ql-align-justify\">“真的有外星人吗？”</p><p class=\"ql-align-justify\">“在太空里看到的地球是什么样？”</p><p class=\"ql-align-justify\">你心中关于宇宙的好奇与梦想</p><p class=\"ql-align-justify\">终于有机会冲出地球飞上太空了</p><p class=\"ql-align-justify\">神舟十三号载人飞行任务圆满成功</p><p class=\"ql-align-justify\">神舟十四号载人飞船</p><p class=\"ql-align-justify\">将在今年6月发射</p><p class=\"ql-align-justify\">再有三名航天员“出差”中国空间站</p><p class=\"ql-align-justify\"><strong style=\"color: rgb(51, 51, 51);\">“带着我的梦想上天宫”征集活动</strong></p><p class=\"ql-align-justify\"><strong style=\"color: rgb(51, 51, 51);\">今天起正式启动</strong></p><p class=\"ql-align-justify\"><strong style=\"color: rgb(51, 51, 51);\">请你给中国航天员写一封信</strong></p><p class=\"ql-align-justify\"><strong style=\"color: rgb(51, 51, 51);\">它将寄往天宫！</strong></p><p class=\"ql-align-justify\">你可以提问题、谈心愿、聊梦想</p><p class=\"ql-align-justify\">分享自己与航天的故事</p><p><img src=\"https://oss.yuexinguoji.com/material/image/2022/04/384eaab1dd1f4afc9d98fb4b61268042.jpg\"></p><p class=\"ql-align-justify\">你的来信</p><p class=\"ql-align-justify\">将可能由航天员在空间站内拆阅</p><p class=\"ql-align-justify\">他们将回答你的问题</p><p class=\"ql-align-justify\">和你分享天宫生活的点滴</p><p class=\"ql-align-justify\">聊聊你的心愿和梦想</p><p class=\"ql-align-justify\">也许有一天</p><p class=\"ql-align-justify\">你还能收到一封来自天宫的回信！</p><p><br></p>",
+          "coverImage": "https://oss.yuexinguoji.com/material/image/2022/04/7fdacc63372741babc9c157b19c817f6.jpg",
+          "videoUrl": "https://oss.yuexinguoji.com/material/video/2022/04/d4a6f61db869413ba540ee7ba66395d7.mp4",
+          "videoType": 0,
+          "isTop": 0,
+          "src": "悦鑫国际",
+          "time": "2022-04-24 17:49:19",
+          "createdTime": "2022-04-24 17:49:19",
+          "updatedTime": "2022-04-24 17:49:19",
+          "createdBy": "18719100001",
+          "updatedBy": "18719100001"
+        }
+  }

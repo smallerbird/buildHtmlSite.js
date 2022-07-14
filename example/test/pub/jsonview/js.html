@@ -1,0 +1,18 @@
+<script>
+    $(function(){
+        const container = document.getElementById('jsoneditor')
+        const $jsonData = $('#jsonData')
+        const options = {
+            mode: 'tree',
+            modes: ['code', 'form', 'text', 'tree', 'view', 'preview'], // allowed modes
+            onModeChange: function (newMode, oldMode) {
+            console.log('Mode switched from', oldMode, 'to', newMode)
+            }
+        }
+        // console.log("xxx:",$jsonData.text())
+        const json = JSON.parse($jsonData.text())
+        const editor = new JSONEditor(container, options, json)
+        
+    })
+  
+</script>

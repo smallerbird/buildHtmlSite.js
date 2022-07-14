@@ -54,12 +54,14 @@ module.exports=(argConfig)=>{
             },
             {
                 type:"pages", //如果生成翻页。
+                //列表输出的文件名
                 outFileName:function(page){
                     return "news"+page+".html"
                 },
-                template:"news.html", // 模板
+                //列表输出用的模版
+                template:"news.html", 
                 data:{  //专有数据
-                    title:"查看标题",
+                    title:"翻页列表测试",
                 },
                 request:[ //可以配置请求的接口返回数据，并注入到模板中
                     {
@@ -84,7 +86,48 @@ module.exports=(argConfig)=>{
                             data:{},
                             params:{page:page}
                         }
-                    }
+                    },
+                    //内部循环给每个单页用到记录数组
+                    getPageResultListData(onePageResData){
+                        // console.log("getPageResultListData:",onePageResData)
+                        //这里是对：mockapi/newspage.json 进行正确自定义的返回。
+                        return onePageResData.data.records
+                    },
+                    //获得单条记录需要调的接口。
+                    getDetailsRequestData:function(itemData,request){
+                        //这里可以直接返回详情信息，
+                        //1.如果之前传入列表接口数据（itemData），包含了需要数据就直接返回。
+                        
+                        return new Promise(function(resolve, reject){
+                            // ... some code
+                            resolve({
+                                "code": "000000",
+                                "mesg": "处理成功",
+                                "time": "2022-07-11T09:32:10.251Z",
+                                "data":itemData
+                              })
+                        })
+
+                        //2.请求一个接口并返回。
+                        //request为传的axios实例的请求接口方法。
+                        /*return request({
+                            key:"detailsData",
+                            url:apiHost+"details.json",
+                            method:"GET",
+                            data:{},
+                            params:{id:itemData.id}
+                        })*/
+                    },
+                    //获取的详情数据，在模版变量的名称。
+                    getDetailsRequestDataKey:"detailsData",
+                    //详情输出用的模版
+                    data:{  //专有数据
+                        title:"详情页面测试",
+                    },
+                    templateDetails:"details.html",
+                    outFileNameDetails:function(itemData){
+                        return "details"+itemData.id+".html"
+                    },
                 }
             }
         ],
