@@ -24,7 +24,7 @@ cd htmlSite
 build-html-site init=testß
 ```
 2. 搭建模拟接口
-> mockapi文件夹下是项目测试用的请求接口数据。需要在当前目录下启动一个http服务，并能通过以下地址访问：1.全局变量：http://localhost:8080/global.json 2.新闻列表：http://localhost:8080/newspage.json 3.新闻详情：http://localhost:8080/details.json 
+> mockapi文件夹下是项目测试用的请求接口数据。需要在当前目录下启动一个http服务，并能通过以下地址可以访问：1.全局变量：http://localhost:8080/global.json 2.新闻列表：http://localhost:8080/newspage.json 3.新闻详情：http://localhost:8080/details.json 
 > http服务推荐使用：[http-server](https://www.npmjs.com/package/http-server) 详细使用方法，自行百度。
 > 注：如果启动的服务地址不是：http://localhost:8080/ 请修改config.js里的：let apiHost="http://localhost:8080/"
 ```sh
@@ -38,7 +38,7 @@ http-server -c-1 -o
 build-html-site
 ```
 
-# 详细参数
+## 详细参数
 > 格式：build-html-site 参数名1=值 参数名2=值 参数名3=值 ...
 1. env=dev/tes/prod 设置当前环境
 2. init=test 初始化模版，注：目前只支持test,合期会支持更多。
@@ -48,6 +48,14 @@ build-html-site
 6. clrbuild=0 关闭清空build文件
 7. config=xxx 配置文件路径，默认在当前目录config.js
 8. page=xx.html 指定只生成某一个html文件
+
+## 高级用法
+1. 部分接口数据直接返回本地自定义数据。自定义配置文件中的属性：requestApi
+> requestApin属性作用：自定义自定义的接口请求方法，默认为：axios.create().request 注：自定义需要返回一个promise
+```
+# 一个例子，不需请求接口，运行命令指定另一个配置文件试试：
+build-html-site config=./config_ext.js
+```
 
 
 
@@ -93,5 +101,10 @@ $ npm install
 15. [那些制作CLI可能用到的轮子](https://zhuanlan.zhihu.com/p/128990729)
 16. [layer 弹出层组件](https://layuion.com/layer/)
 17. [免费cdn加速](http://www.staticfile.org/)
+
+## 特效参考
+1. [canvas波浪效果网页动画](http://www.bootstrapmb.com/item/12446)
+2. [svg波浪动画特效代码](http://www.bootstrapmb.com/item/5835)
+
 
 

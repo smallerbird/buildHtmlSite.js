@@ -198,14 +198,24 @@ async function build(){
     
 
         let requestData={}
-        //请求全局需要的接口数据
         const instance = axios.create()
+        //如果有自定义的接口请求方法，就用自定义的的。
+        let requestApi_default=instance.request
+        let requestApi=requestApi_default
+        if(config.requestApi){
+            requestApi=config.requestApi
+        }
+
         let configRequest=config.request
         // console.log("configRequest:",configRequest,configRequest.length)
         for(let i=configRequest.length-1;i>=0;i--){
             let item=configRequest[i]
             try{
-                let resData=await instance.request(item)
+                let resData=await requestApi(item)
+                if(!resData){
+                    //如果返回false,使用默认再试试。
+                    resData=await requestApi_default(item)
+                }
                 // console.log("全局 resData :",resData.data)
                 resData.data.OK=true
                 requestData[item.key]=resData.data
@@ -246,13 +256,31 @@ for(let i=pages.length-1;i>=0;i--){
            
                 let resData={}
                 try{
-                    resData=await instance.request(item.request[0])
+                    resData=await requestApi(item.request[0])
+                    if(!resData){
+                        //如果返回false,使用默认再试试。
+                        resData=await requestApi_default(item.request[0])
+                    }
+                    resData.OK=true
                 }catch(e){
-                    console.log("请求接口错误:"+item.url,"---==接口信息==---",JSON.stringify(item.request[0]),"---==错误信息==--",JSON.stringify(e))
-                    return;
+                    console.log("eee:",e)
+                    resData={
+                        data:{
+                            data:{},
+                            OK:false,
+                            errs:{
+                                type:"request",
+                                msg:"请求接口错误",
+                                url:item.url,
+                                requestData:JSON.item,
+                                resData:e
+                            }
+                        }
+                    }
+                    // console.log("请求接口错误:"+JSON.stringify(e),"---==接口信息==---",JSON.stringify(item.request[0]),"---==错误信息==--",JSON.stringify(e))
                 }
                 let pageCount=item.config.getPageCount(resData.data)
-                
+                // console.log("pageCount:"+pageCount,resData)
                 for(let page=1;page<=pageCount;page++){
                     //生成列表页面-----start
                     //创建一个新的
@@ -262,7 +290,14 @@ for(let i=pages.length-1;i>=0;i--){
                     }
 
                     let p=item.config.getPageRequestParams(page)
-                    let onePageResData=await instance.request(p)
+                    
+                    let onePageResData=await requestApi(p)
+                    if(!onePageResData){
+                        //如果返回false,使用默认再试试。
+                        onePageResData=await requestApi_default(p)
+                    }
+
+
                     newPage.data[p.key]=onePageResData.data
                     newPage.outFileName=item.outFileName(page)
 
@@ -278,6 +313,9 @@ for(let i=pages.length-1;i>=0;i--){
                             data:item.config.data
                         }
                         let itemData=listData[d]
+
+             
+
                         let detailsData=await item.config.getDetailsRequestData(itemData,instance.request)
                         detailsPage.outFileName=item.config.outFileNameDetails(detailsData.data)
                         detailsPage.data[item.config.getDetailsRequestDataKey]=detailsData.data
@@ -352,9 +390,14 @@ if(newAppendPages.length>0){
                     let configRequest=item.request
                     // console.log("configRequest:",configRequest,configRequest.length)
                     for(let i=configRequest.length-1;i>=0;i--){
-                        let item=configRequest[i]
-                        let resData=await instance.request(item)
-                        currentPageRequestData[item.key]=resData.data
+                        let item1=configRequest[i]
+                        let resData=await requestApi(item1)
+                        if(!resData){
+                            //如果返回false,使用默认再试试。
+                            resData=await requestApi_default(item1)
+                        }
+
+                        currentPageRequestData[item1.key]=resData.data
                         // console.log("局部 resData :",resData.data)
                     }
                 }

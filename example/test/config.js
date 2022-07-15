@@ -3,7 +3,7 @@
  */
 module.exports=(argConfig)=>{
 
-    let apiHost="http://localhost:8080/"
+    let apiHost="http://localhost:8081/"
     
     let {env}=argConfig
     //根据不同环境设置不同接口前缀，可以用这个变量
@@ -43,7 +43,16 @@ module.exports=(argConfig)=>{
                 template:"index.html", // 模板
                 data:{  //专有数据
                     title:"首页",
-                }
+                },
+                request:[ //当前页面独有的接口数据
+                    {
+                        key:"index", 
+                        url:apiHost+"index.json",
+                        method:"GET",
+                        data:{},
+                        params:{}
+                    }
+                ],
             },
             {
                 outFileName:"dataview.html", // 生成后的文件名
@@ -75,6 +84,9 @@ module.exports=(argConfig)=>{
                 config:{//针对page类型的其它配置
                     //从返回的接口中获取页数
                     getPageCount:function(requestData){
+                        if(!requestData) return 0
+                        if(!requestData.data) return 0
+                        if(!requestData.data.pages) return 0
                         return requestData.data.pages
                     },
                     //每次翻页请求的接口
