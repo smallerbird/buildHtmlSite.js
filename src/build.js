@@ -433,7 +433,8 @@ if(newAppendPages.length>0){
     //检查是否开启 watcher模式
     let watchPath=toResolvePath('./')
     if(argConfig.watcher&&argConfig.watcher=='1'){
-        funcs.log("开启监控模式..")
+        funcs.log("监控模式还在调式中，暂时关闭")
+        /*funcs.log("开启监控模式..")
         funcs.log("监控文件改动中...")
         var watcher = chokidar.watch(watchPath, {
             ignored: /(^|[\/\\])\../,
@@ -442,7 +443,7 @@ if(newAppendPages.length>0){
         watcher.on('change', path =>{
             run()
             funcs.log("监控文件改动中...")
-        })
+        })*/
 
     }
 
