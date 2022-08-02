@@ -1,6 +1,6 @@
 {
   "name": "buildhtmlsite",
-  "version": "0.0.6",
+  "version": "0.0.8",
   "description": "build hml file web site",
   "main": "src/index.js",
   "scripts": {

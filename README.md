@@ -21,7 +21,9 @@ mkdir htmlSite
 # 进入这个目录
 cd htmlSite
 # 初始化模版
-build-html-site init=testß
+build-html-site init=test
+# 安装node依赖
+npm i
 ```
 2. 搭建模拟接口
 > mockapi文件夹下是项目测试用的请求接口数据。需要在当前目录下启动一个http服务，并能通过以下地址可以访问：1.全局变量：http://localhost:8080/global.json 2.新闻列表：http://localhost:8080/newspage.json 3.新闻详情：http://localhost:8080/details.json 
@@ -36,6 +38,13 @@ http-server -c-1 -o
 ```sh
 # 运行这条命令，会在当前目录中出现build文件，里面就是生成的静态文件了。
 build-html-site
+```
+4. 本地调试
+```sh
+# 生成静态命令
+npm run build
+# 启动本地调试服务器
+npm run server
 ```
 
 ## 详细参数
@@ -105,6 +114,14 @@ $ npm install
 ## 特效参考
 1. [canvas波浪效果网页动画](http://www.bootstrapmb.com/item/12446)
 2. [svg波浪动画特效代码](http://www.bootstrapmb.com/item/5835)
+3. [图片多种移入动效](https://www.jq22.com/demo/csshover202007192041/)
+4. [jquery-touchswipe](https://github.com/mattbryson/TouchSwipe-Jquery-Plugin)
+5. [jquery swiper](https://www.swiper.com.cn/)
+6. [jQuery延迟加载(懒加载)插件](https://www.w3cways.com/1765.html)
+7. [animista](https://animista.net/)
+
+
+
 
 
 

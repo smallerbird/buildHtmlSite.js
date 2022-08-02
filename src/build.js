@@ -4,7 +4,7 @@ const axios=require('axios')
 var fsTool=require("./lib/FSTools")
 
 const funcs=require("./lib/funcs")
-
+console.log("2222")
 //一些配置信息都在这里
 //可以接受哪些参数
 const processArgv='page,env,watcher,copy,clrbuild,config,init-list,init'
@@ -165,12 +165,15 @@ async function build(){
             //创建build文件夹
             // let build=path.resolve(__dirname, config.out)
             let build=toResolvePath(config.out)
-            let isExists=await fsTool.exists(build)
+            
+            fse.emptyDirSync(build)
+
+            /*let isExists=await fsTool.exists(build)
             if (isExists){ //如果存在就删除
                 fse.removeSync(build)
             }
-            await fsTool.mkdir(build);
-            funcs.log("执行：清空build文件夹")
+            await fsTool.mkdir(build);*/
+            funcs.log("执行：清空build文件夹v2")
         }
         
         //
@@ -310,17 +313,20 @@ for(let i=pages.length-1;i>=0;i--){
                     for(let d=0;d<listData.length;d++){
                         let detailsPage={
                             template:item.config.templateDetails,
-                            data:item.config.data
+                            data:JSON.parse(JSON.stringify(item.config.data)) //深度拷贝
                         }
-                        let itemData=listData[d]
-
-             
+                        
+                        let itemData=JSON.parse(JSON.stringify(listData[d]))//深度拷贝
 
                         let detailsData=await item.config.getDetailsRequestData(itemData,instance.request)
+                        
                         detailsPage.outFileName=item.config.outFileNameDetails(detailsData.data)
+                       
                         detailsPage.data[item.config.getDetailsRequestDataKey]=detailsData.data
+                        // console.log("生成详情页面222:",detailsPage.outFileName+":"+JSON.stringify(detailsPage.data[item.config.getDetailsRequestDataKey].content))
                         newAppendPages.push(detailsPage)
                     }
+                    // 
                     
                     //生成详情页面-----end
 
