@@ -110,6 +110,10 @@ $ npm install
 15. [那些制作CLI可能用到的轮子](https://zhuanlan.zhihu.com/p/128990729)
 16. [layer 弹出层组件](https://layuion.com/layer/)
 17. [免费cdn加速](http://www.staticfile.org/)
+18. [如何生成webp动图](https://blog.csdn.net/hello_bravo_/article/details/107295657) [img2webp](https://developers.google.cn/speed/webp/docs/img2webp?authuser=0)
+19. [二维码](http://httplarsjung.de/jquery-qrcode/)
+20. [js、css、html压缩与混淆汇总](https://segmentfault.com/a/1190000040502426)
+21. [html-minifier](https://www.npmjs.com/package/html-minifier) [HTMLMinifier中文说明](https://blog.csdn.net/weixin_30640291/article/details/95483578)
 
 ## 特效参考
 1. [canvas波浪效果网页动画](http://www.bootstrapmb.com/item/12446)

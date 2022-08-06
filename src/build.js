@@ -2,6 +2,7 @@ var fs = require('fs'),path=require('path'),eJs = require("ejs");
 const fse = require('fs-extra')
 const axios=require('axios')
 var fsTool=require("./lib/FSTools")
+let htmlMinifier=require('html-minifier')
 
 const funcs=require("./lib/funcs")
 console.log("2222")
@@ -145,6 +146,24 @@ async function build(){
             let HTML=eJs.render(data, information,{
                 filename:templatePath
             });
+            let minifyTip='压缩成功'
+            //压缩html
+            try{
+                minifyTip='[压缩成功]'
+                var minify = htmlMinifier.minify;
+                HTML = minify(HTML, {
+                    removeComments: true,
+                    collapseWhitespace: true,
+                    minifyJS: true,
+                    minifyCSS: true
+                });
+            }catch(e){
+                minifyTip='[压缩失败]'
+                console.log("尝试压缩html:错误:"+JSON.stringify(e)+"\n ")
+                console.log("压缩html为:")
+                console.log(HTML)
+            }
+            funcs.log("生成"+minifyTip+":"+outPath)
             fs.writeFile(outPath,HTML,function(err) {
                 if(err) { console.log(err); return false }
                 return true;
@@ -416,7 +435,7 @@ if(newAppendPages.length>0){
 
                 
                 let outFilex=toResolvePath(config.out+item.outFileName)
-                funcs.log("生成："+outFilex)
+               
                 
                 eJs2HTML(
                     toResolvePath('./'+item.template),
