@@ -5,7 +5,7 @@ var fsTool=require("./lib/FSTools")
 let htmlMinifier=require('html-minifier')
 
 const funcs=require("./lib/funcs")
-console.log("2222")
+// console.log("2222-11")
 //一些配置信息都在这里
 //可以接受哪些参数
 const processArgv='page,env,watcher,copy,clrbuild,config,init-list,init'
@@ -280,12 +280,14 @@ for(let i=pages.length-1;i>=0;i--){
                 try{
                     resData=await requestApi(item.request[0])
                     if(!resData){
+                        console.log("#2:")
                         //如果返回false,使用默认再试试。
                         resData=await requestApi_default(item.request[0])
                     }
                     resData.OK=true
                 }catch(e){
-                    console.log("eee:",e)
+                    console.log("!!!!!:",item.request[0])
+                    console.log("处理类型为page出错:",e)
                     resData={
                         data:{
                             data:{},
